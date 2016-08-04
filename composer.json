@@ -1,0 +1,14 @@
+{
+    "name": "a-graham/dinner-club-bot",
+    "description": "A slackbot implementation for dinner club",
+    "authors": [
+        {
+            "name": "A. Graham",
+            "email": "alex@a-graham.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "jclg/php-slack-bot": "dev-master"
+    }
+}

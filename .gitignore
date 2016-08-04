@@ -1,0 +1,6 @@
+.bash*
+.cloud-locale-test.skip
+.composer/*
+.profile
+vendor/*
+
