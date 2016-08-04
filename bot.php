@@ -56,11 +56,29 @@ class FuckYouCommand extends \PhpSlackBot\Command\BaseCommand {
 
 }
 
+class UpdateCommand extends \PhpSlackBot\Command\BaseCommand {
+
+	protected function configure()
+	{
+		$this->setName('update');
+	}
+
+	protected function execute($message, $context)
+	{
+		$this->send($this->getCurrentChannel(), null, $this->getName().' is updating...');
+		echo exec('git pull origin master');
+		$this->send($this->getCurrentChannel(), null, $this->getName().' is restarting...');
+		$pid = file_get_contents("slackbot.pid");
+		echo exec('kill '.$pid.' && php bot.php');
+	}
+}
 
 
+file_put_contents('slackbot.pid', getmypid());
 $bot = new Bot();
 $bot->setToken(getenv('SLACKBOT_TOKEN')); 
 $bot->loadCommand(new MyCommand());
 $bot->loadCommand(new InsultCommand());
 $bot->loadCommand(new FuckYouCommand());
+$bot->loadCommand(new UpdateCommand()));
 $bot->run();

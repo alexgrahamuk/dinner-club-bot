@@ -4,4 +4,4 @@
 .composer/*
 .profile
 vendor/*
-
+slackbot.pid
