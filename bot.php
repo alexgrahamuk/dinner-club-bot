@@ -15,7 +15,31 @@ class MyCommand extends \PhpSlackBot\Command\BaseCommand {
 
 }
 
+class InsultCommand extends \PhpSlackBot\Command\BaseCommand {
+
+    protected function configure() {
+        $this->setName('insult');
+    }
+
+    protected function execute($message, $context) {
+
+	$insult = @file_get_contents('https://www.foaas.com/king/'.$this->getUserNameFromUserId($this->getCurrentUser()).'/'.$this->getName());
+
+	if ($insult === false)
+		return;
+
+	//Cheap parse, accept header not working on api
+	$insult = substr($insult, strpos($insult, '<h1>')+4);
+	$insult = substr($insult, 0, strpos($insult, '</h1>'));
+
+        $this->send($this->getCurrentChannel(), $this->getCurrentUser(), $insult);
+    }
+
+}
+
+
 $bot = new Bot();
 $bot->setToken(getenv('SLACKBOT_TOKEN')); 
 $bot->loadCommand(new MyCommand());
+$bot->loadCommand(new InsultCommand());
 $bot->run();
