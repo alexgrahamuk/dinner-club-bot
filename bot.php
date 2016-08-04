@@ -65,18 +65,24 @@ class UpdateCommand extends \PhpSlackBot\Command\BaseCommand {
 
 	protected function execute($message, $context)
 	{
-		$this->send($this->getCurrentChannel(), null, $this->getName().' is updating...');
-		echo exec('git pull origin master');
-		$this->send($this->getCurrentChannel(), null, $this->getName().' is restarting...');
-		$pid = file_get_contents("slackbot.pid");
-		echo exec('kill '.$pid.' && php bot.php');
+		$this->send($this->getCurrentChannel(), null, 'I am  updating...');
+		$out = shell_exec('git pull origin master 2>&1');
+		$this->send($this->getCurrentChannel(), null, $out);
+		$this->send($this->getCurrentChannel(), null, 'I am restarting...');
+		exec('php bot.php > /dev/null 2>/dev/null &');
 	}
 }
 
 
+$pid = @file_get_contents('slackbot.pid');
+
+if ($pid !== false)
+	exec("kill ".$pid);
+
 file_put_contents('slackbot.pid', getmypid());
+
 $bot = new Bot();
-$bot->setToken(getenv('SLACKBOT_TOKEN')); 
+$bot->setToken(getenv('SLACKBOT_TOKEN'));
 $bot->loadCommand(new MyCommand());
 $bot->loadCommand(new InsultCommand());
 $bot->loadCommand(new FuckYouCommand());
