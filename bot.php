@@ -80,5 +80,5 @@ $bot->setToken(getenv('SLACKBOT_TOKEN'));
 $bot->loadCommand(new MyCommand());
 $bot->loadCommand(new InsultCommand());
 $bot->loadCommand(new FuckYouCommand());
-$bot->loadCommand(new UpdateCommand()));
+$bot->loadCommand(new UpdateCommand());
 $bot->run();
