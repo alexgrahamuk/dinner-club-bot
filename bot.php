@@ -37,9 +37,30 @@ class InsultCommand extends \PhpSlackBot\Command\BaseCommand {
 
 }
 
+class FuckYouCommand extends \PhpSlackBot\Command\BaseCommand {
+
+    protected function configure() {
+        $this->setName('fuck_you');
+    }
+
+   
+    protected function execute($message, $context) {
+
+        $this->send
+	(
+		$this->getCurrentChannel(), 
+		$this->getCurrentUser(), 
+		'Hey '.$this->getUserNameFromUserId($this->getCurrentUser()).', fuck you too buddy!'
+	);
+    }
+
+}
+
+
 
 $bot = new Bot();
 $bot->setToken(getenv('SLACKBOT_TOKEN')); 
 $bot->loadCommand(new MyCommand());
 $bot->loadCommand(new InsultCommand());
+$bot->loadCommand(new FuckYouCommand());
 $bot->run();
